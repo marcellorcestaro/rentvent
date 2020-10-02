@@ -52,7 +52,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>ps2.aula7.Main</mainClass>
+                    <mainClass>rentvent.Administrador</mainClass>
                     <systemProperties>
                         <systemProperty>
                             <key>file.encoding</key>
