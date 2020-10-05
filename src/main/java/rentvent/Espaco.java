@@ -43,6 +43,7 @@ public class Espaco {
     /*
     * Getters
     */
+    public int getId() { return id; }
     public Espaco getProx() { return prox; }
     public String getNome() { return nome; }
     public String getDisponibilidade() { return disponibilidade; }
@@ -55,9 +56,10 @@ public class Espaco {
     */
     public void print(){
         System.out.println("\n\n#### Espaço: "+ this.nome +" ####");
+        System.out.println("# ID: " + this.id);
         System.out.println("# Capacidade: " + this.capacidade);
-        System.out.println("# Valor por Hora: " + this.valor_hora);
-        System.out.println("# Valor por Dia: " + this.valor_dia);
+        System.out.println(String.format("# Valor por Hora: %.2f", this.valor_hora));
+        System.out.println(String.format("# Valor por Dia: %.2f", this.valor_dia));
         System.out.println("# Disponibilidade: " + this.disponibilidade);
         System.out.println("##################\n");
     }
