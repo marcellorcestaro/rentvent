@@ -15,6 +15,7 @@ public class Espaco {
     private double valor_hora;
     private double valor_dia;
     private String disponibilidade;
+    private int locadorFuncaoClienteId;
     @Transient
     private Espaco prox;
 
@@ -50,6 +51,7 @@ public class Espaco {
     public int getCapacidade() { return capacidade; }
     public double getValorHora() { return valor_hora; }
     public double getValorDia() { return valor_dia; }
+    public int getLocadorFuncaoClienteId() { return locadorFuncaoClienteId; }
 
     /*
     * Implementa método para imprimir as informações do espaçó.

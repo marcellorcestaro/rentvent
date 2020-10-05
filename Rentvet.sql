@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `rentvent`.`pessoa_fisica` (
   CONSTRAINT `fk_pessoa_fisica_cliente`
     FOREIGN KEY (`cliente_id`)
     REFERENCES `rentvent`.`cliente` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `rentvent`.`pessoa_juridica` (
   CONSTRAINT `fk_pessoa_juridica_cliente1`
     FOREIGN KEY (`cliente_id`)
     REFERENCES `rentvent`.`cliente` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -216,7 +216,7 @@ CREATE TABLE IF NOT EXISTS `rentvent`.`espaco` (
   CONSTRAINT `fk_espaco_locador1`
     FOREIGN KEY (`locador_funcao_cliente_id`)
     REFERENCES `rentvent`.`locador` (`funcao_cliente_id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `rentvent`.`endereco` (
   CONSTRAINT `fk_endereco_espaco1`
     FOREIGN KEY (`espaco_id`)
     REFERENCES `rentvent`.`espaco` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
