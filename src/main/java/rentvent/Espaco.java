@@ -24,12 +24,14 @@ public class Espaco {
     /*
     * Inicializa Espaço sem um próximo
     */
-    public Espaco(String n, int c, double vh, double vd, String d){
+    public Espaco(int id, String n, int c, double vh, double vd, String d, int l){
+        this.id = id;
         this.nome = n;
         this.capacidade = c;
         this.valor_hora = vh;
         this.valor_dia = vd;
         this.disponibilidade = d;
+        this.locadorFuncaoClienteId = l;
         this.prox = null;
     }
 
@@ -47,10 +49,14 @@ public class Espaco {
     public int getId() { return id; }
     public Espaco getProx() { return prox; }
     public String getNome() { return nome; }
+    public void setNome(String n) { this.nome = n; }
     public String getDisponibilidade() { return disponibilidade; }
     public int getCapacidade() { return capacidade; }
+    public void setCapacidade(int c) { this.capacidade = c; }
     public double getValorHora() { return valor_hora; }
+    public void setValorHora(double vh) { this.valor_hora = vh; }
     public double getValorDia() { return valor_dia; }
+    public void setValorDia(double vd) { this.valor_dia = vd; }
     public int getLocadorFuncaoClienteId() { return locadorFuncaoClienteId; }
 
     /*

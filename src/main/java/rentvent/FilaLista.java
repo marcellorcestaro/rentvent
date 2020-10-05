@@ -80,12 +80,26 @@ public class FilaLista {
         return true;
     }
 
+    public boolean deletar(int id) {
+        Espaco aux = inicio;
+        while(aux != null) {
+            if(aux.getId() == id) {
+                Espaco e = aux;
+                aux = e.getProx();
+                e = null;
+                return true;
+            }
+            aux = aux.getProx();
+        }
+        return false;
+    }
+
 
     /*
     * Imprime a fila inteira de espaços a serem aprovados
     */
     public void imprimir(){
-        if(!this.vazio()){
+        if(!vazio()){
             Espaco iterable = this.inicio;
 
             while(iterable != null){
@@ -93,5 +107,18 @@ public class FilaLista {
                 iterable = iterable.getProx();
             };
         }
+    }
+
+    public Espaco encontrarEspaco(int id) {
+        if(!vazio()){
+            Espaco aux = inicio;
+            while(aux != null) {
+                if(aux.getId() == id) {
+                    return aux;
+                }
+                aux = aux.getProx();
+            }
+        }
+        return null;
     }
 }

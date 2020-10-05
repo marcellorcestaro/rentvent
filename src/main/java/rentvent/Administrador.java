@@ -44,34 +44,7 @@ public class Administrador implements CommandLineRunner {
         System.out.println("\n\n##### FIM DO PROGRAMA #####");
     }
 
-    // private void excluirEspaco(FilaLista lista) {
-    //     if(!lista.vazio()){
-    //         Espaco aux = lista.getInicio();
-    //         Scanner scan = new Scanner(System.in);
-    //         System.out.println("\n# Digite o número de identificação (ID) do espaço a ser excluído: ");
-    //         int id = scan.nextInt();
-    //         while(aux != null) {
-    //             if(aux.getId() == id) {
-    //                 if(aux.getDisponibilidade() != "APROVADO"){
-    //                     espacoRepo.delete(aux);
-    //                     System.out.println("\n## Espaço excluido!");
-    //                     aux = null;
-    //                 }
-    //                 else{
-    //                     System.out.println("\n## Não é possível excluir espaços que já foram aprovados.");
-    //                     aux = null;
-    //                 }
-    //             }
-    //             else{
-    //                 aux = aux.getProx();
-    //             }
-                
-    //         }
-    //     }
-    //     else {
-    //         System.out.println("\n## Não há espaços para excluir.");
-    //     }
-    // }
+    
 
     private void reprovarEspaco(FilaLista lista) {
         if(!lista.vazio()){

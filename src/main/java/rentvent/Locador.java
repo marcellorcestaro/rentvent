@@ -14,32 +14,102 @@ public class Locador implements CommandLineRunner {
     @Autowired
     private EspacoRepo espacoRepo;
 
+    private FilaLista lista;
+
     @Override
     public void run(String... args) {
-        FilaLista lista = this.inicializarMeusEspacos();
+        lista = this.inicializarMeusEspacos();
         boolean sair = false;
         
         Scanner scn = new Scanner(System.in);
         while(!sair) {
             System.out.println("\n##### PAINEL DO LOCADOR #####");
-            System.out.println("(1) Listar espaços cadastrados");
+            System.out.println("(1) Listar meus espaços");
             System.out.println("(2) Cadastrar novo espaço");
-            System.out.println("(2) Alterar espaço");
-            System.out.println("(3) Excluir espaço");
+            System.out.println("(3) Alterar um espaço");
+            System.out.println("(4) Excluir um espaço");
             System.out.println("(0) Sair do programa");
             System.out.print("\n## Escolha sua opção: ");
             int opc = scn.nextInt();
             switch(opc){
-                case 1: listarEspacos(lista); break;
-                case 2: ; break;
-                case 3: ; break;
+                case 1: listarEspacos(); break;
+                case 2: cadastrarEspaco(); break;
+                case 3: alterarEspaco(); break;
+                case 4: excluirEspaco(); break;
                 case 0: sair = true; break;
                 default: System.out.println("\n## Opção inválida.");
             }
         }
     }
 
-    private void listarEspacos(FilaLista lista) {
+    private void excluirEspaco() {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("\n# Número do espaço a ser apagado: ");
+        int id = scan.nextInt();
+        Espaco e = lista.encontrarEspaco(id);
+        if(e != null) {
+            espacoRepo.delete(e);
+            if(lista.deletar(id)){
+                System.out.println("\n## Espaço excluído com sucesso.");
+            }
+            else{
+                System.out.println("\n## Houve um erro ao excluir o espaço.");
+            }
+        }
+        else{
+            System.out.println("\n## Não foi encontrado espaço com este número.");
+        }
+    }
+
+    private void alterarEspaco() {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("\n## Número do espaço a ser alterado: ");
+        int id = scan.nextInt();
+        Espaco e = lista.encontrarEspaco(id);
+        if(e != null) {
+            System.out.print("\n# Novo nome do espaço: ");
+            scan.nextLine();
+            String nome = scan.nextLine();
+            System.out.print("\n# Nova capacidade do espaço: ");
+            int capacidade = scan.nextInt();
+            System.out.print("\n# Novo valor por hora do espaço: ");
+            double valorHora = scan.nextDouble();
+            System.out.print("\n# Novo valor por dia do espaço: ");
+            double valorDia = scan.nextDouble();
+            e.setNome(nome);
+            e.setCapacidade(capacidade);
+            e.setValorHora(valorHora);
+            e.setValorDia(valorDia);
+            espacoRepo.save(e);
+            System.out.println("\n## Espaço atualizado.");
+        }
+        else{
+            System.out.println("\n## Não foi encontrado espaço com este número.");
+        }
+    }
+
+    private void cadastrarEspaco() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("\n## Cadastro de novo espaço ##\n");
+        System.out.print("\n# Número do novo espaço: ");
+        int id = scan.nextInt();
+        System.out.print("\n# Nome do espaço: ");
+        scan.nextLine();
+        String nome = scan.nextLine();
+        System.out.print("\n# Capacidade do espaço: ");
+        int capacidade = scan.nextInt();
+        System.out.print("\n# Valor por hora do espaço: ");
+        double valorHora = scan.nextDouble();
+        System.out.print("\n# Valor por dia do espaço: ");
+        double valorDia = scan.nextDouble();
+        Espaco e = new Espaco(id, nome, capacidade, valorHora, valorDia, "A APROVAR", 1);
+        espacoRepo.save(e);
+        lista.inserir(e);
+        System.out.println("\n## Espaço cadastrado com sucesso.");
+        
+    }
+
+    private void listarEspacos() {
         if(!lista.vazio()){
             lista.imprimir();
         }
