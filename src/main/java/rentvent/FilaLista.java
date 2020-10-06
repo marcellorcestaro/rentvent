@@ -82,10 +82,11 @@ public class FilaLista {
 
     public boolean deletar(int id) {
         Espaco aux = inicio;
+        Espaco e;
         while(aux != null) {
-            if(aux.getId() == id) {
-                Espaco e = aux;
-                aux = e.getProx();
+            e = aux.getProx();
+            if(e.getId() == id) {
+                aux.setProx(e.getProx());
                 e = null;
                 return true;
             }

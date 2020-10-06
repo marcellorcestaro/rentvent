@@ -1,6 +1,7 @@
 package rentvent;
 
 import java.text.Format;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import org.graalvm.compiler.phases.graph.ScheduledNodeIterator;
@@ -32,12 +33,12 @@ public class Administrador implements CommandLineRunner {
             System.out.println("(3) Reprovar espaço");
             System.out.println("(0) Sair do programa");
             System.out.print("\n## Escolha sua opção: ");
-            int opc = scn.nextInt();
+            String opc = scn.next();
             switch(opc){
-                case 1: listarEspacos(lista);; break;
-                case 2: aprovarEspaco(lista); break;
-                case 3: reprovarEspaco(lista); break;
-                case 0: sair = true; break;
+                case "1": listarEspacos(lista);; break;
+                case "2": aprovarEspaco(lista); break;
+                case "3": reprovarEspaco(lista); break;
+                case "0": sair = true; break;
                 default: System.out.println("\n## Opção inválida.");
             }
         }
@@ -52,16 +53,20 @@ public class Administrador implements CommandLineRunner {
             comeco.print();
             Scanner scn = new Scanner(System.in);
             System.out.print("Você tem certeza que quer reprovar este espaço?\n(1) Sim\n(2) Não\nResposta: ");
-            int opc = scn.nextInt();
-            switch(opc){
-                case 1:
-                    comeco.setDisponibilidade("REPROVADO");
-                    espacoRepo.save(comeco);
-                    lista.deletar();
-                    System.out.println("\n# Espaço reprovado!");
-                    break;
-                case 2: System.out.println("\n# Operação cancelada!"); break;
-                default: System.out.println("\n# Opção inválida. Operação cancelada."); break;
+            try{
+                int opc = scn.nextInt();
+                switch(opc){
+                    case 1:
+                        comeco.setDisponibilidade("REPROVADO");
+                        espacoRepo.save(comeco);
+                        lista.deletar();
+                        System.out.println("\n# Espaço reprovado!");
+                        break;
+                    case 2: System.out.println("\n# Operação cancelada!"); break;
+                    default: System.out.println("\n# Opção inválida. Operação cancelada."); break;
+                }
+            } catch(InputMismatchException err) {
+                System.out.println("\n## ERRO. Por favor, digite o algarismo numérico correspondente a opção desejada.");
             }
         }
         else {
@@ -75,16 +80,20 @@ public class Administrador implements CommandLineRunner {
             comeco.print();
             Scanner scn = new Scanner(System.in);
             System.out.print("Você tem certeza que quer aprovar este espaço?\n(1) Sim\n(2) Não\nResposta: ");
-            int opc = scn.nextInt();
-            switch(opc){
-                case 1:
-                    comeco.setDisponibilidade("APROVADO");
-                    espacoRepo.save(comeco);
-                    lista.deletar();
-                    System.out.println("\n# Espaço aprovado!");
-                    break;
-                case 2: System.out.println("\n# Operação cancelada!"); break;
-                default: System.out.println("\n# Opção inválida. Operação cancelada."); break;
+            try{
+                int opc = scn.nextInt();
+                switch(opc){
+                    case 1:
+                        comeco.setDisponibilidade("APROVADO");
+                        espacoRepo.save(comeco);
+                        lista.deletar();
+                        System.out.println("\n# Espaço aprovado!");
+                        break;
+                    case 2: System.out.println("\n# Operação cancelada!"); break;
+                    default: System.out.println("\n# Opção inválida. Operação cancelada."); break;
+                }
+            } catch(InputMismatchException err) {
+                System.out.println("\n## ERRO. Por favor, digite o algarismo numérico correspondente a opção desejada.");
             }
         }
         else {
