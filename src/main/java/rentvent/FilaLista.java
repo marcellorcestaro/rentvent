@@ -108,23 +108,6 @@ public class FilaLista {
         }
     }
 
-    /*
-    * Imprime a fila inteira de espaços com certa DISPONIBILIDADE
-    */
-    public void imprimir(String disp){
-        if(!vazio()){
-            Espaco iterable = this.inicio;
-
-            while(iterable != null){
-                String dispIterable = iterable.getDisponibilidade();
-                if(disp.equals(dispIterable)){
-                    iterable.print();
-                }
-                iterable = iterable.getProx();
-            };
-        }
-    }
-
     public Espaco encontrarEspaco(int id) {
         if(!vazio()){
             Espaco aux = inicio;
