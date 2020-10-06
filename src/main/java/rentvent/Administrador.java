@@ -48,20 +48,20 @@ public class Administrador implements CommandLineRunner {
 
     private void reprovarEspaco(FilaLista lista) {
         if(!lista.vazio()){
-            Espaco aux = lista.getInicio();
-            Scanner scan = new Scanner(System.in);
-            System.out.println("\n# Digite o número de identificação (ID) do espaço a ser reprovado: ");
-            int id = scan.nextInt();
-            while(aux != null) {
-                if(aux.getId() == id) {
-                    aux.setDisponibilidade("REPROVADO");
-                    espacoRepo.save(aux);
-                    System.out.println("\n## Espaço reprovado!");
-                    aux = null;
-                }
-                else{
-                    aux = aux.getProx();
-                }
+            Espaco comeco = lista.getInicio();
+            comeco.print();
+            Scanner scn = new Scanner(System.in);
+            System.out.print("Você tem certeza que quer reprovar este espaço?\n(1) Sim\n(2) Não\nResposta: ");
+            int opc = scn.nextInt();
+            switch(opc){
+                case 1:
+                    comeco.setDisponibilidade("REPROVADO");
+                    espacoRepo.save(comeco);
+                    lista.deletar();
+                    System.out.println("\n# Espaço reprovado!");
+                    break;
+                case 2: System.out.println("\n# Operação cancelada!"); break;
+                default: System.out.println("\n# Opção inválida. Operação cancelada."); break;
             }
         }
         else {
@@ -71,20 +71,20 @@ public class Administrador implements CommandLineRunner {
 
     private void aprovarEspaco(FilaLista lista) {
         if(!lista.vazio()){
-            Espaco aux = lista.getInicio();
-            Scanner scan = new Scanner(System.in);
-            System.out.println("\n# Digite o número de identificação (ID) do espaço a ser aprovado: ");
-            int id = scan.nextInt();
-            while(aux != null) {
-                if(aux.getId() == id) {
-                    aux.setDisponibilidade("APROVADO");
-                    espacoRepo.save(aux);
-                    System.out.println("\n## Espaço aprovado!");
-                    aux = null;
-                }
-                else{
-                    aux = aux.getProx();
-                }
+            Espaco comeco = lista.getInicio();
+            comeco.print();
+            Scanner scn = new Scanner(System.in);
+            System.out.print("Você tem certeza que quer aprovar este espaço?\n(1) Sim\n(2) Não\nResposta: ");
+            int opc = scn.nextInt();
+            switch(opc){
+                case 1:
+                    comeco.setDisponibilidade("APROVADO");
+                    espacoRepo.save(comeco);
+                    lista.deletar();
+                    System.out.println("\n# Espaço aprovado!");
+                    break;
+                case 2: System.out.println("\n# Operação cancelada!"); break;
+                default: System.out.println("\n# Opção inválida. Operação cancelada."); break;
             }
         }
         else {
@@ -94,7 +94,7 @@ public class Administrador implements CommandLineRunner {
 
     private void listarEspacos(FilaLista fila) {
         if(!fila.vazio()){
-            fila.imprimir("A APROVAR");
+            fila.imprimir();
         }
         else {
             System.out.println("\n## Não há espaços cadastrados.");
@@ -106,7 +106,9 @@ public class Administrador implements CommandLineRunner {
         System.out.print("Adicionando espaços a serem analisados ...");
         Iterable<Espaco> espacos = espacoRepo.findAll();
         for(Espaco e: espacos){
-            fila.inserir(e);
+            if(e.getDisponibilidade().equals("A APROVAR")){
+                fila.inserir(e);
+            }
             System.out.print(".");
         }
         System.out.print(" Completado!\n");
