@@ -94,7 +94,7 @@ public class Administrador implements CommandLineRunner {
 
     private void listarEspacos(FilaLista fila) {
         if(!fila.vazio()){
-            fila.imprimir();
+            fila.imprimir("A APROVAR");
         }
         else {
             System.out.println("\n## Não há espaços cadastrados.");

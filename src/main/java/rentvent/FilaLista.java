@@ -94,9 +94,8 @@ public class FilaLista {
         return false;
     }
 
-
     /*
-    * Imprime a fila inteira de espaços a serem aprovados
+    * Imprime a fila inteira de espaços
     */
     public void imprimir(){
         if(!vazio()){
@@ -104,6 +103,23 @@ public class FilaLista {
 
             while(iterable != null){
                 iterable.print();
+                iterable = iterable.getProx();
+            };
+        }
+    }
+
+    /*
+    * Imprime a fila inteira de espaços com certa DISPONIBILIDADE
+    */
+    public void imprimir(String disp){
+        if(!vazio()){
+            Espaco iterable = this.inicio;
+
+            while(iterable != null){
+                String dispIterable = iterable.getDisponibilidade();
+                if(disp.equals(dispIterable)){
+                    iterable.print();
+                }
                 iterable = iterable.getProx();
             };
         }
