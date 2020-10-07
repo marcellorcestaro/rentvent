@@ -1,4 +1,4 @@
-# Rentvent - Plataforma de Locação de Espaços 
+# Rentvent - Plataforma de Locação de Espaços para Eventos
 Plataforma criada para realizar o aluguel de espaços para realização de eventos. Dessa forma, facilitando, de forma segura e eficiente, a comunicação e o processo de aluguel entre locador e locatário.
 
 ## Projeto
