@@ -50,9 +50,9 @@ public class Locador implements CommandLineRunner {
         try{
             int id = scan.nextInt();
             Espaco e = lista.encontrarEspaco(id);
-            if(e != null) {
-                espacoRepo.delete(e);
+            if(e != null) {                
                 if(lista.deletar(id)){
+                    espacoRepo.delete(e);
                     System.out.println("\n## Espaço excluído com sucesso.");
                 }
                 else{

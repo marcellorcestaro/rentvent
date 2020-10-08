@@ -21,6 +21,7 @@ public class Administrador implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        System.out.println("\n\n ================================================\n");
         
         FilaLista lista = this.inicializarEspacos();
         boolean sair = false;
