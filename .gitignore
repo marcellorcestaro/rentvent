@@ -2,3 +2,6 @@
 */target/*
 target/
 src/main/resources/application.properties
+.settings
+.classpath
+.project
