@@ -3,12 +3,13 @@ package rentvent;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.GeneratedValue;
+
 
 @Entity
 @Table(name="espaco")
 public class Espaco {
-    @Id
+    @Id @GeneratedValue
     private int id;
     private String nome;
     private int capacidade;
@@ -16,8 +17,7 @@ public class Espaco {
     private double valor_dia;
     private String disponibilidade;
     private int locadorFuncaoClienteId;
-    @Transient
-    private Espaco prox;
+    
 
     public Espaco(){}
 
