@@ -1,8 +1,12 @@
 package rentvent;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-public class Endereco {
+@Entity
+@Table(name = "enderecos")
+public class Enderecos {
     private String cep;
     private String logradouro;
     private String numero;
@@ -12,7 +16,7 @@ public class Endereco {
     @Id
     private int espacoId;
 
-    public Endereco(String cep, String logradouro, String numero, String complemento, String cidade, String uf,
+    public Enderecos(String cep, String logradouro, String numero, String complemento, String cidade, String uf,
             int espacoId) {
         this.setCep(cep);
         this.setLogradouro(logradouro);

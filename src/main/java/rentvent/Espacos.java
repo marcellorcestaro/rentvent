@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 
 @Entity
 @Table(name = "espaco")
-public class Espaco {
+public class Espacos {
     @Id
     @GeneratedValue
     private int id;
@@ -16,10 +16,10 @@ public class Espaco {
     private double valorHora;
     private double valorDia;
     private int locadorFuncaoClienteId;
-    private Endereco endereco;
+    private Enderecos endereco;
 
-    public Espaco(int id, String nome, int capacidade, double valorHora, double valorDia, int locadorFuncaoClienteId,
-            Endereco endereco) {
+    public Espacos(int id, String nome, int capacidade, double valorHora, double valorDia, int locadorFuncaoClienteId,
+            Enderecos endereco) {
         this.id = id;
         this.nome = nome;
         this.capacidade = capacidade;
@@ -33,11 +33,11 @@ public class Espaco {
         return locadorFuncaoClienteId;
     }
 
-    public Endereco getEndereco() {
+    public Enderecos getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(Endereco endereco) {
+    public void setEndereco(Enderecos endereco) {
         this.endereco = endereco;
     }
 

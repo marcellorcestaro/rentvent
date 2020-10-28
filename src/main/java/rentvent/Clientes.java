@@ -6,17 +6,17 @@ import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 
 @Entity
-@Table(name = "cliente")
-public class Cliente {
+@Table(name = "clientes")
+public class Clientes {
     @Id
     @GeneratedValue
     private int id;
     private String nome;
     private PessoaFisica pessoaFisica;
 
-    public Cliente() {}
+    public Clientes() {}
 
-    public Cliente(int id, String nome, PessoaFisica pessoaFisica) {
+    public Clientes(int id, String nome, PessoaFisica pessoaFisica) {
         this.id = id;
         this.setNome(nome);
         this.setPessoaFisica(pessoaFisica);
