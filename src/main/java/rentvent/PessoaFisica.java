@@ -13,6 +13,7 @@ import javax.persistence.Column;
 @Table(name = "pessoa_fisica")
 public class PessoaFisica {
     @Id
+    @GeneratedValue
     private long id;
     private String cpf;
     private String rg;
@@ -21,8 +22,9 @@ public class PessoaFisica {
 
     public PessoaFisica() {}
 
-    public PessoaFisica(String cpf, String rg, String dataExpedicao, String orgaoEmissor, long id) {
-    	super();
+    public PessoaFisica(long id, String cpf, String rg, String dataExpedicao, String orgaoEmissor) {
+        super();
+        this.id = id;
         this.cpf = cpf;
         this.rg = rg;
         this.dataExpedicao = dataExpedicao;
