@@ -10,16 +10,17 @@ import javax.persistence.GeneratedValue;
 public class Clientes {
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
     private String nome;
-    private PessoaFisica pessoaFisica;
+    private long pessoaFisica;
 
     public Clientes() {}
 
-    public Clientes(int id, String nome, PessoaFisica pessoaFisica) {
-        this.id = id;
-        this.setNome(nome);
-        this.setPessoaFisica(pessoaFisica);
+    public Clientes(long id, String nome, long pessoaFisica) {
+    	super();
+    	this.id = id;
+    	this.nome = nome;
+    	this.pessoaFisica = pessoaFisica;
     }
 
     public String getNome() {
@@ -30,11 +31,19 @@ public class Clientes {
         this.nome = nome;
     }
 
-    public PessoaFisica getPessoaFisica() {
-        return pessoaFisica;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public void setPessoaFisica(PessoaFisica pessoaFisica) {
-        this.pessoaFisica = pessoaFisica;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getPessoaFisica() {
+		return pessoaFisica;
+	}
+
+	public void setPessoaFisica(long pessoaFisica) {
+		this.pessoaFisica = pessoaFisica;
+	}
 }

@@ -7,16 +7,17 @@ import javax.persistence.Id;
 @Entity
 @Table(name = "pessoa_fisica")
 public class PessoaFisica {
+    @Id
+    private long idCliente;
     private String cpf;
     private String rg;
     private String dataExpedicao;
     private String orgaoEmissor;
-    @Id
-    private int idCliente;
 
     public PessoaFisica() {}
 
-    public PessoaFisica(String cpf, String rg, String dataExpedicao, String orgaoEmissor, int idCliente) {
+    public PessoaFisica(String cpf, String rg, String dataExpedicao, String orgaoEmissor, long idCliente) {
+    	super();
         this.cpf = cpf;
         this.rg = rg;
         this.dataExpedicao = dataExpedicao;
@@ -24,13 +25,11 @@ public class PessoaFisica {
         this.idCliente = idCliente;
     }
 
-    
-
-    public int getIdCliente() {
+    public long getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(long idCliente) {
         this.idCliente = idCliente;
     }
 

@@ -2,6 +2,6 @@ package rentvent;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface ClientesRepo extends CrudRepository<Clientes, Integer> {
+public interface ClientesRepo extends CrudRepository<Clientes, Long> {
     
 }
