@@ -1,33 +1,57 @@
 package rentvent;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "enderecos")
 public class Enderecos {
+    @Id @GeneratedValue
+    private long id;
     private String cep;
     private String logradouro;
     private String numero;
     private String complemento;
     private String cidade;
     private String uf;
-    @Id
-    private int espacoId;
+    
+    private long espacoId;
+    
+    public Enderecos() {}
 
-    public Enderecos(String cep, String logradouro, String numero, String complemento, String cidade, String uf,
-            int espacoId) {
-        this.setCep(cep);
-        this.setLogradouro(logradouro);
-        this.setNumero(numero);
-        this.setComplemento(complemento);
-        this.setCidade(cidade);
-        this.setUf(uf);
+    public Enderecos(long id, String cep, String logradouro, String numero, String complemento, String cidade, String uf,
+            long espacoId) {
+    	super();
+    	this.id = id;
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.cidade = cidade; 
+        this.uf = uf;
         this.espacoId = espacoId;
     }
 
-    public String getUf() {
+    public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getEspacoId() {
+		return espacoId;
+	}
+
+	public void setEspacoId(long espacoId) {
+		this.espacoId = espacoId;
+	}
+
+	public String getUf() {
         return uf;
     }
 

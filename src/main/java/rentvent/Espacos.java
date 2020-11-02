@@ -4,21 +4,26 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
 
 @Entity
 @Table(name = "espaco")
 public class Espacos {
-    @Id
-    @GeneratedValue
-    private int id;
+    @Id @GeneratedValue
+    private long id;
     private String nome;
     private int capacidade;
     private double valorHora;
     private double valorDia;
-    private int locadorFuncaoClienteId;
+	private long locadorFuncaoClienteId;
+	
+	@OneToOne(cascade = CascadeType.ALL)
     private Enderecos endereco;
+    
+    public Espacos() {}
 
-    public Espacos(int id, String nome, int capacidade, double valorHora, double valorDia, int locadorFuncaoClienteId,
+	public Espacos(long id, String nome, int capacidade, double valorHora, double valorDia, long locadorFuncaoClienteId,
             Enderecos endereco) {
         this.id = id;
         this.nome = nome;
@@ -28,56 +33,61 @@ public class Espacos {
         this.locadorFuncaoClienteId = locadorFuncaoClienteId;
         this.endereco = endereco;
     }
+	
 
-    public int getLocadorFuncaoClienteId() {
-        return locadorFuncaoClienteId;
-    }
+    public long getId() {
+		return id;
+	}
 
-    public Enderecos getEndereco() {
-        return endereco;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public void setEndereco(Enderecos endereco) {
-        this.endereco = endereco;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public double getValorDia() {
-        return valorDia;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public void setValorDia(double valorDia) {
-        this.valorDia = valorDia;
-    }
+	public int getCapacidade() {
+		return capacidade;
+	}
 
-    public double getValorHora() {
-        return valorHora;
-    }
+	public void setCapacidade(int capacidade) {
+		this.capacidade = capacidade;
+	}
 
-    public void setValorHora(double valorHora) {
-        this.valorHora = valorHora;
-    }
+	public double getValorHora() {
+		return valorHora;
+	}
 
-    public void setLocadorFuncaoClienteId(int locadorFuncaoClienteId) {
-        this.locadorFuncaoClienteId = locadorFuncaoClienteId;
-    }
+	public void setValorHora(double valorHora) {
+		this.valorHora = valorHora;
+	}
 
-    public int getCapacidade() {
-        return capacidade;
-    }
+	public double getValorDia() {
+		return valorDia;
+	}
 
-    public void setCapacidade(int capacidade) {
-        this.capacidade = capacidade;
-    }
+	public void setValorDia(double valorDia) {
+		this.valorDia = valorDia;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public long getLocadorFuncaoClienteId() {
+		return locadorFuncaoClienteId;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public void setLocadorFuncaoClienteId(long locadorFuncaoClienteId) {
+		this.locadorFuncaoClienteId = locadorFuncaoClienteId;
+	}
 
-    
+	public Enderecos getEndereco() {
+		return endereco;
+	}
 
-
+	public void setEndereco(Enderecos endereco) {
+		this.endereco = endereco;
+	}
 }

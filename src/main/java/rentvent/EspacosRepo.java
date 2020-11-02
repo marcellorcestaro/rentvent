@@ -2,5 +2,5 @@ package rentvent;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface EspacosRepo extends CrudRepository<Espacos, Integer>{
+public interface EspacosRepo extends CrudRepository<Espacos, Long>{
 }
