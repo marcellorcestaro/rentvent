@@ -3,12 +3,17 @@ package rentvent;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.OneToOne;
+import javax.persistence.MapsId;
+import javax.persistence.JoinColumn;
+import javax.persistence.Column;
 
 @Entity
 @Table(name = "pessoa_fisica")
 public class PessoaFisica {
     @Id
-    private long idCliente;
+    private long id;
     private String cpf;
     private String rg;
     private String dataExpedicao;
@@ -16,54 +21,26 @@ public class PessoaFisica {
 
     public PessoaFisica() {}
 
-    public PessoaFisica(String cpf, String rg, String dataExpedicao, String orgaoEmissor, long idCliente) {
+    public PessoaFisica(String cpf, String rg, String dataExpedicao, String orgaoEmissor, long id) {
     	super();
         this.cpf = cpf;
         this.rg = rg;
         this.dataExpedicao = dataExpedicao;
         this.orgaoEmissor = orgaoEmissor;
-        this.idCliente = idCliente;
     }
 
-    public long getIdCliente() {
-        return idCliente;
-    }
+    public long getId() { return id; }
+    public void setId(long id){ this.id = id;}
 
-    public void setIdCliente(long idCliente) {
-        this.idCliente = idCliente;
-    }
+    public String getOrgaoEmissor() { return orgaoEmissor; }
+    public void setOrgaoEmissor(String orgaoEmissor) { this.orgaoEmissor = orgaoEmissor;}
 
-    public String getOrgaoEmissor() {
-        return orgaoEmissor;
-    }
+    public String getDataExpedicao() { return dataExpedicao; }
+    public void setDataExpedicao(String dataExpedicao) { this.dataExpedicao = dataExpedicao; }
 
-    public void setOrgaoEmissor(String orgaoEmissor) {
-        this.orgaoEmissor = orgaoEmissor;
-    }
+    public String getRg() { return rg;}
+    public void setRg(String rg) { this.rg = rg;}
 
-    public String getDataExpedicao() {
-        return dataExpedicao;
-    }
-
-    public void setDataExpedicao(String dataExpedicao) {
-        this.dataExpedicao = dataExpedicao;
-    }
-
-    public String getRg() {
-        return rg;
-    }
-
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    
+    public String getCpf() { return cpf; }
+    public void setCpf(String cpf) { this.cpf = cpf;}
 }

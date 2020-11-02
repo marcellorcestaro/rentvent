@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
+import javax.persistence.OneToOne;
+import javax.persistence.CascadeType;
 
 @Entity
 @Table(name = "espaco")
@@ -14,13 +16,15 @@ public class Espacos {
     private int capacidade;
     private double valorHora;
     private double valorDia;
-    private long locadorFuncaoClienteId;
-    private long endereco;
+	private long locadorFuncaoClienteId;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    private Enderecos endereco;
     
     public Espacos() {}
 
 	public Espacos(long id, String nome, int capacidade, double valorHora, double valorDia, long locadorFuncaoClienteId,
-            long endereco) {
+            Enderecos endereco) {
         this.id = id;
         this.nome = nome;
         this.capacidade = capacidade;
@@ -79,11 +83,11 @@ public class Espacos {
 		this.locadorFuncaoClienteId = locadorFuncaoClienteId;
 	}
 
-	public long getEndereco() {
+	public Enderecos getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(long endereco) {
+	public void setEndereco(Enderecos endereco) {
 		this.endereco = endereco;
 	}
 }
