@@ -2,19 +2,10 @@ package rentvent;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.OneToOne;
-import javax.persistence.MapsId;
-import javax.persistence.JoinColumn;
-import javax.persistence.Column;
 
 @Entity
 @Table(name = "pessoa_fisica")
 public class PessoaFisica extends Clientes{
-    // @Id
-    // @GeneratedValue
-    // private long id;
     private String cpf;
     private String rg;
     private String dataExpedicao;
@@ -29,9 +20,6 @@ public class PessoaFisica extends Clientes{
         this.dataExpedicao = dataExpedicao;
         this.orgaoEmissor = orgaoEmissor;
     }
-
-    // public long getId() { return id; }
-    // public void setId(long id){ this.id = id;}
 
     public String getOrgaoEmissor() { return orgaoEmissor; }
     public void setOrgaoEmissor(String orgaoEmissor) { this.orgaoEmissor = orgaoEmissor;}
