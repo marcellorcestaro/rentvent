@@ -20,9 +20,9 @@ public class Espaco {
 	@Embedded
     private Endereco endereco;
     
-    public Espacos() {}
+    public Espaco() {}
 
-	public Espacos(long id, String nome, int capacidade, double valorHora, double valorDia, long locadorFuncaoClienteId,
+	public Espaco(long id, String nome, int capacidade, double valorHora, double valorDia, long locadorFuncaoClienteId,
             Endereco endereco) {
         this.id = id;
         this.nome = nome;
@@ -86,7 +86,7 @@ public class Espaco {
 		return endereco;
 	}
 
-	public void setEndereco(Enderecos endereco) {
+	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
 }

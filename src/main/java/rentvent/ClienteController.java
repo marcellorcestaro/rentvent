@@ -21,7 +21,7 @@ public class ClienteController {
 	@GetMapping("/api/clientes")
 	public List<Cliente> getClientes(){
 		List<Cliente> clientes = new ArrayList<>();
-		clientesRepo.findAll().forEach(clientes::add);
+		clienteRepo.findAll().forEach(clientes::add);
 		return clientes;
 	}
 	
