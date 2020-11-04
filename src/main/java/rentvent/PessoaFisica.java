@@ -11,10 +11,10 @@ import javax.persistence.Column;
 
 @Entity
 @Table(name = "pessoa_fisica")
-public class PessoaFisica {
-    @Id
-    @GeneratedValue
-    private long id;
+public class PessoaFisica extends Clientes{
+    // @Id
+    // @GeneratedValue
+    // private long id;
     private String cpf;
     private String rg;
     private String dataExpedicao;
@@ -22,17 +22,16 @@ public class PessoaFisica {
 
     public PessoaFisica() {}
 
-    public PessoaFisica(long id, String cpf, String rg, String dataExpedicao, String orgaoEmissor) {
-        super();
-        this.id = id;
+    public PessoaFisica(long id, String nome, String cpf, String rg, String dataExpedicao, String orgaoEmissor) {
+        super(id, nome);
         this.cpf = cpf;
         this.rg = rg;
         this.dataExpedicao = dataExpedicao;
         this.orgaoEmissor = orgaoEmissor;
     }
 
-    public long getId() { return id; }
-    public void setId(long id){ this.id = id;}
+    // public long getId() { return id; }
+    // public void setId(long id){ this.id = id;}
 
     public String getOrgaoEmissor() { return orgaoEmissor; }
     public void setOrgaoEmissor(String orgaoEmissor) { this.orgaoEmissor = orgaoEmissor;}

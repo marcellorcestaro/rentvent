@@ -6,6 +6,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.OneToOne;
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 
 @Entity
 @Table(name = "espaco")
@@ -18,7 +19,7 @@ public class Espacos {
     private double valorDia;
 	private long locadorFuncaoClienteId;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@Embedded
     private Enderecos endereco;
     
     public Espacos() {}
