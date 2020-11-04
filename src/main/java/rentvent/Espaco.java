@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "espaco")
-public class Espacos {
+public class Espaco {
     @Id @GeneratedValue
     private long id;
     private String nome;
@@ -18,12 +18,12 @@ public class Espacos {
 	private long locadorFuncaoClienteId;
 	
 	@Embedded
-    private Enderecos endereco;
+    private Endereco endereco;
     
     public Espacos() {}
 
 	public Espacos(long id, String nome, int capacidade, double valorHora, double valorDia, long locadorFuncaoClienteId,
-            Enderecos endereco) {
+            Endereco endereco) {
         this.id = id;
         this.nome = nome;
         this.capacidade = capacidade;
@@ -82,7 +82,7 @@ public class Espacos {
 		this.locadorFuncaoClienteId = locadorFuncaoClienteId;
 	}
 
-	public Enderecos getEndereco() {
+	public Endereco getEndereco() {
 		return endereco;
 	}
 

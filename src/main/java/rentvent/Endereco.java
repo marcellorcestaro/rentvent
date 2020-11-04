@@ -3,7 +3,7 @@ package rentvent;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class Enderecos {
+public class Endereco {
     private String cep;
     private String logradouro;
     private String numero;
@@ -11,9 +11,9 @@ public class Enderecos {
     private String cidade;
     private String uf;
         
-    public Enderecos() {}
+    public Endereco() {}
 
-    public Enderecos(String cep, String logradouro, String numero, String complemento, String cidade, String uf) {
+    public Endereco(String cep, String logradouro, String numero, String complemento, String cidade, String uf) {
     	super();
         this.cep = cep;
         this.logradouro = logradouro;

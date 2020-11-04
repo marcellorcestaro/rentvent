@@ -5,16 +5,16 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class Clientes {
+public class Cliente {
     @Id
     @GeneratedValue
     private long id;
 	private String nome;
 	
 
-    public Clientes() {}
+    public Cliente() {}
 
-    public Clientes(long id, String nome) {
+    public Cliente(long id, String nome) {
     	super();
     	this.id = id;
     	this.nome = nome;

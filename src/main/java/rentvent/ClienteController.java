@@ -14,21 +14,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ClientesController {
+public class ClienteController {
 	@Autowired
-	private ClientesRepo clientesRepo;
+	private ClienteRepo clienteRepo;
 	
 	@GetMapping("/api/clientes")
-	public List<Clientes> getClientes(){
-		List<Clientes> clientes = new ArrayList<>();
+	public List<Cliente> getClientes(){
+		List<Cliente> clientes = new ArrayList<>();
 		clientesRepo.findAll().forEach(clientes::add);
 		return clientes;
 	}
 	
 	@GetMapping("/api/clientes/{id}")
-	public Clientes getCliente(@PathVariable long id) {
-		Optional<Clientes> opt = clientesRepo.findById(id);
-		Clientes cliente = null;
+	public Cliente getCliente(@PathVariable long id) {
+		Optional<Cliente> opt = clienteRepo.findById(id);
+		Cliente cliente = null;
 		if(opt.isPresent()) {
 			cliente = opt.get();
 		}
@@ -36,16 +36,16 @@ public class ClientesController {
 	}
 	
 	@PostMapping("/api/clientes")
-	public Clientes createCliente(@RequestBody Clientes c) {
-		clientesRepo.save(c);
+	public Cliente createCliente(@RequestBody Cliente c) {
+		clienteRepo.save(c);
 		return c;
 	}
 	
 	@PutMapping("/api/clientes/{id}")
-	public Clientes updateClientes(@RequestBody Clientes c, @PathVariable long id) {
-		Clientes cliente = this.getCliente(id);
+	public Cliente updateClientes(@RequestBody Cliente c, @PathVariable long id) {
+		Cliente cliente = this.getCliente(id);
 		if(cliente != null) {
-			clientesRepo.save(c);
+			clienteRepo.save(c);
 			cliente = c;
 		}
 		return cliente;
@@ -53,10 +53,10 @@ public class ClientesController {
 	
 	@DeleteMapping(value = "/api/clientes/{id}", produces = "application/json")
 	public String deleteClientes(@PathVariable long id) {
-		Clientes cliente = this.getCliente(id);
+		Cliente cliente = this.getCliente(id);
 		boolean sucesso = false;
 		if(cliente != null) {
-			clientesRepo.delete(cliente);
+			clienteRepo.delete(cliente);
 			sucesso = true;
 		}
 		return "{ \"success\" : "+ (sucesso ? "true" : "false") + "}";

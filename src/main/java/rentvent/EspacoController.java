@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class EspacosController {
+public class EspacoController {
 	
 	@Autowired
-	private EspacosRepo espacosRepo;
+	private EspacoRepo espacosRepo;
 	
 	@GetMapping("/api/espacos")
-	public List<Espacos> getEspacos(){
-		List<Espacos> espacos = new ArrayList<>();
+	public List<Espaco> getEspacos(){
+		List<Espaco> espacos = new ArrayList<>();
 		espacosRepo.findAll().forEach(espacos::add);
 		return espacos;
 	}
 	
 	@GetMapping("/api/espacos/{id}")
-	public Espacos getEspaco(@PathVariable long id) {
-		Optional<Espacos> opt = espacosRepo.findById(id);
-		Espacos espaco = null;
+	public Espaco getEspaco(@PathVariable long id) {
+		Optional<Espaco> opt = espacosRepo.findById(id);
+		Espaco espaco = null;
 		if(opt.isPresent()) {
 			espaco = opt.get();
 		}
@@ -37,14 +37,14 @@ public class EspacosController {
 	}
 	
 	@PostMapping("/api/espacos")
-	public Espacos createEspaco(@RequestBody Espacos e) {
+	public Espaco createEspaco(@RequestBody Espaco e) {
 		espacosRepo.save(e);
 		return e;
 	}
 	
 	@PutMapping("/api/espacos/{id}")
-	public Espacos updateEspaco(@RequestBody Espacos e, @PathVariable long id) {
-		Espacos espaco = this.getEspaco(id);
+	public Espaco updateEspaco(@RequestBody Espaco e, @PathVariable long id) {
+		Espaco espaco = this.getEspaco(id);
 		if(espaco != null) {
 			espacosRepo.save(e);
 			espaco = e;
@@ -54,7 +54,7 @@ public class EspacosController {
 	
 	@DeleteMapping(value = "/api/espacos/{id}", produces = "application/json")
 	public String deleteEspaco(@PathVariable long id) {
-		Espacos e = this.getEspaco(id);
+		Espaco e = this.getEspaco(id);
 		boolean sucesso = false;
 		if(e != null) {
 			espacosRepo.delete(e);
