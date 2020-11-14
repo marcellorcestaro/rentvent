@@ -1,17 +1,23 @@
 package rentvent;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "pessoa_fisica")
-public class PessoaFisica extends Cliente{
+public class PessoaFisica extends Cliente {
     private String cpf;
     private String rg;
     private String dataExpedicao;
     private String orgaoEmissor;
 
-    public PessoaFisica() {}
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    private DadoPagamento dadoPagamento;
+
+    public PessoaFisica() {
+    }
 
     public PessoaFisica(long id, String nome, String cpf, String rg, String dataExpedicao, String orgaoEmissor) {
         super(id, nome);
@@ -19,6 +25,20 @@ public class PessoaFisica extends Cliente{
         this.rg = rg;
         this.dataExpedicao = dataExpedicao;
         this.orgaoEmissor = orgaoEmissor;
+    }
+
+    /**
+     * @return the dadoPagamento
+     */
+    public DadoPagamento getDadoPagamento() {
+        return dadoPagamento;
+    }
+
+    /**
+     * @param dadoPagamento the dadoPagamento to set
+     */
+    public void setDadoPagamento(DadoPagamento dadoPagamento) {
+        this.dadoPagamento = dadoPagamento;
     }
 
     public String getOrgaoEmissor() { return orgaoEmissor; }
