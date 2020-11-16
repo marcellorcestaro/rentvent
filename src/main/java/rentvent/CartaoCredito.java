@@ -12,6 +12,7 @@ public class CartaoCredito extends DadoPagamento{
     private Date dataVencimento;
     private String codSeguranca;
 
+    public CartaoCredito(){}
     /**
      * @param numero
      * @param dataVencimento

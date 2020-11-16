@@ -1,8 +1,11 @@
 package rentvent;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -13,8 +16,8 @@ public class PessoaFisica extends Cliente {
     private String dataExpedicao;
     private String orgaoEmissor;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private DadoPagamento dadoPagamento;
+    @OneToMany(mappedBy = "pfisica", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<DadoPagamento> dadoPagamentos;
 
     public PessoaFisica() {
     }
@@ -27,18 +30,12 @@ public class PessoaFisica extends Cliente {
         this.orgaoEmissor = orgaoEmissor;
     }
 
-    /**
-     * @return the dadoPagamento
-     */
-    public DadoPagamento getDadoPagamento() {
-        return dadoPagamento;
+    public Set<DadoPagamento> getDadoPagamentos() {
+        return dadoPagamentos;
     }
 
-    /**
-     * @param dadoPagamento the dadoPagamento to set
-     */
-    public void setDadoPagamento(DadoPagamento dadoPagamento) {
-        this.dadoPagamento = dadoPagamento;
+    public void setDadoPagamentos(Set<DadoPagamento> dadoPagamentos) {
+        this.dadoPagamentos = dadoPagamentos;
     }
 
     public String getOrgaoEmissor() { return orgaoEmissor; }

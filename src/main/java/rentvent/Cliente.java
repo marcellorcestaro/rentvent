@@ -6,8 +6,7 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public class Cliente {
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     private long id;
 	private String nome;
 	
@@ -15,9 +14,8 @@ public class Cliente {
     public Cliente() {}
 
     public Cliente(long id, String nome) {
-    	super();
-    	this.id = id;
-    	this.nome = nome;
+    	this.setId(id);
+    	this.setNome(nome);
     }
 
     public String getNome() { return nome;}

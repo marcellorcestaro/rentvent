@@ -10,6 +10,8 @@ public class ContaBancaria extends DadoPagamento {
     private String agencia;
     private String conta;
 
+    public ContaBancaria() {}
+
     /**
      * @param id
      * @param titular
