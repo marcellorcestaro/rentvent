@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+    <title>Cartões de Crédito</title>
+</head>
+
+<body>
+    <h1>Gerenciamento de Cartões de Crédito</h1>
+
+    <table>
+        <tr>
+            <td>ID:</td>
+            <td><input type="text" id="txtId"></td>
+        </tr>
+        <tr>
+            <td>Titular:</td>
+            <td><input type="text" id="txtTitular"></td>
+        </tr>
+        <tr>
+            <td>Numero:</td>
+            <td><input type="text" id="txtNumero"></td>
+        </tr>
+        <tr>
+            <td>Data de Vencimento:</td>
+            <td><input type="date" id="dtVencimento"></td>
+        </tr>
+        <tr>
+            <td>Código de Segurança:</td>
+            <td><input type="text" id="txtCodSeguranca"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="button" value="Novo" onclick="" id="btnNovo">
+                <input type="button" value="Salvar" onclick="" id="btnSalvar">
+                <input type="button" value="Apagar" onclick="" id="btnApagar">
+                <input type="button" value="Cancelar" onclick="" id="btnCancelar">
+            </td>
+        </tr>
+    </table>
+    <p style="font-weight: bold;" id="paragrafoMensagem"></p>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Titular</th>
+            <th>Numero</th>
+            <th>Data de Vencimento</th>
+            <th>Código de Segurança</th>
+        </tr>
+    </table>
+</body>
+
+</html>

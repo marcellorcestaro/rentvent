@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+    <title>Conta Bancária</title>
+</head>
+
+<body>
+    <h1>Gerenciamento de Conta Bancária</h1>
+
+    <table>
+        <tr>
+            <td>ID:</td>
+            <td><input type="text" id="txtId"></td>
+        </tr>
+        <tr>
+            <td>Titular:</td>
+            <td><input type="text" id="txtTitular"></td>
+        </tr>
+        <tr>
+            <td>Banco:</td>
+            <td><input type="text" id="txtBanco"></td>
+        </tr>
+        <tr>
+            <td>Agencia:</td>
+            <td><input type="text" id="txtAgencia"></td>
+        </tr>
+        <tr>
+            <td>Conta:</td>
+            <td><input type="text" id="txtConta"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="button" value="Novo" onclick="novaConta()" id="btnNovo">
+                <input type="button" value="Salvar" onclick="salvarConta()" id="btnSalvar">
+                <input type="button" value="Apagar" onclick="apagarConta()" id="btnApagar">
+                <input type="button" value="Cancelar" onclick="cancelarEdicao()" id="btnCancelar">
+            </td>
+        </tr>
+    </table>
+    <p style="font-weight: bold;" id="paragrafoMensagem"></p>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Titular</th>
+            <th>Numero</th>
+            <th>Data de Vencimento</th>
+            <th>Código de Segurança</th>
+        </tr>
+        <tbody id="corpoTabelaConta"></tbody>
+    </table>
+
+    <script>
+        const corpoTabela = document.querySelector('#corpoTabelaConta');
+        const paragrafoMensagem = document.querySelector('#paragrafoMensagem');
+        const txtId = document.querySelector('#txtId');
+        const txtTitular = document.querySelector('#txtTitular');
+        const txtBanco = document.querySelector('#txtBanco');
+        const txtAgencia = document.querySelector('#txtAgencia');
+        const txtConta = document.querySelector('#txtConta');
+
+        const btnNovo = document.querySelector('#btnNovo');
+        const btnSalvar = document.querySelector('#btnSalvar');
+        const btnApagar = document.querySelector('#btnApagar');
+        const btnCancelar = document.querySelector('#btnApagar');
+        var criandoNovaConta = false;
+
+        inicializar();
+
+        function inicializar() {
+            paragrafoMensagem.innerHTML = 'Pressione o botão Novo ou selecione uma conta da lista:'
+            txtId.value = '';
+            txtTitular.value = '';
+            txtBanco.value = '';
+            txtAgencia.value = '';
+            txtConta.value = '';
+
+            txtId.disabled = true;
+            txtTitular.disabled = true;
+            txtBanco.disabled = true;
+            txtAgencia.disabled = true;
+            txtConta.disabled = true;
+
+            btnNovo.disabled = false;
+            btnSalvar.disabled = true;
+            btnApagar.disabled = true;
+            btnCancelar.disabled = true;
+            listarTodasContas();
+        }
+
+        async function listarTodasContas() {
+            const URL = `/api/pagamento/conta`;
+            fetch(URL)
+                .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta })
+                .then(resposta => resposta.json())
+                .then(jsonResponse => preencherTabela(jsonResponse))
+                .catch(function(error) { paragrafoMensagem.innerHTML = "Erro ao listar as contas bancárias (código " + error.message + ")"; });
+        }
+
+        function preencherTabela(contas) {
+            var linhasTabela ='';
+            var n = contas.length;
+            for (let i = 0; i< n; i++) {
+                var conta = contas[i];
+                linhasTabela +=
+                `<tr><td><a href="javascript:void(0)" onclick="selecionarConta('${conta.id}', '${conta.titular}', '${conta.banco}', '${conta.agencia}', '${conta.conta}')">`
+                + conta.id + '</a></td>' +
+                '<td>' + conta.titular + '</td>' +
+                '<td>' + conta.banco + '</td>' +
+                '<td>' + conta.agencia + '</td>' +
+                '<td>' + conta.conta + '</td></tr>\n';
+            }
+            corpoTabela.innerHTML = linhasTabela;
+        }
+
+        function selecionatConta(id, titular, banco, agencia, conta) {
+            paragrafoMensagem.innerHTML = 'Altere e salve os dados da conta, ou então apague o registro da conta.'
+            txtId.value = id;
+            txtTitular.value = titular;
+            txtBanco.value = banco;
+            txtAgencia.value = agencia;
+            txtConta.value = conta;
+
+            txtId.disabled = true;
+            txtTitular.disabled = false;
+            txtBanco.disabled = false;
+            txtAgencia.disabled = false;
+            txtConta.disabled = false;
+
+            btnNovo.disabled = true;
+            btnSalvar.disabled = false;
+            btnApagar.disabled = false;
+            btnCancelar.disabled = false;
+        }
+
+        function novaConta() {
+            paragrafoMensagem.innerHTML = 'Preencha os dados da nova conta...';
+            criandoNovaConta = true;
+            
+            txtId.value = '';
+            txtTitular.value = '';
+            txtBanco.value = '';
+            txtAgencia.value = '';
+            txtConta.value = '';
+
+            txtId.disabled = true;
+            txtTitular.disabled = false;
+            txtBanco.disabled = false;
+            txtAgencia.disabled = false;
+            txtConta.disabled = false;
+
+            btnNovo.disabled = true;
+            btnSalvar.disabled = false;
+            btnApagar.disabled = true;
+            btnCancelar.disabled = false;
+        }
+
+        function salvarConta() {
+            if(criandoNovaConta) {
+                criarConta();
+            }
+            else {
+                alterarConta();
+            }
+        }
+
+        async function criarConta() {
+            const URL = `/api/pagamento/conta`
+            const dadosConta = {
+                'titular': txtTitular.value,
+                'banco': txtBanco.value,
+                'agencia': txtAgencia.value,
+                'conta': txtConta
+            };
+            const postRequest = {
+                method: 'POST',
+                body: JSON.stringify(dadosConta),
+                headers: { 'Content-type': 'application/json' }
+            };
+            fetch(URL, postRequest)
+                .then(response => { if (!response.ok) throw Error(response.status); return response })
+                .then(response => response.json())
+                .then(jsonResponse => inicializar())
+                .catch(function(error) { paragrafoMensagem.innerHTML = 'Erro ao criar nova conta (código ' + error.message + ')'; });
+        }
+
+
+    </script>
+</body>
+
+</html>
