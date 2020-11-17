@@ -2,12 +2,10 @@ package rentvent;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.Embeddable;
 
-@Entity
-@Table(name = "cartao_credito")
-public class CartaoCredito extends DadoPagamento{
+@Embeddable
+public class CartaoCredito {
     private String numero;
     private Date dataVencimento;
     private String codSeguranca;
@@ -17,8 +15,8 @@ public class CartaoCredito extends DadoPagamento{
      * @param dataVencimento
      * @param codSeguranca
      */
-    public CartaoCredito(long id, String titular, String numero, Date dataVencimento, String codSeguranca) {
-        super(id, titular);
+    public CartaoCredito(String numero, Date dataVencimento, String codSeguranca) {
+        super();
         this.setNumero(numero);
         this.setDataVencimento(dataVencimento);
         this.setCodSeguranca(codSeguranca);
@@ -65,4 +63,7 @@ public class CartaoCredito extends DadoPagamento{
     public void setCodSeguranca(String codSeguranca) {
         this.codSeguranca = codSeguranca;
     }
+
+
+    
 }

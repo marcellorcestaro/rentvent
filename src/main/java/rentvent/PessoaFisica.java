@@ -1,8 +1,6 @@
 package rentvent;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,43 +11,81 @@ public class PessoaFisica extends Cliente {
     private String dataExpedicao;
     private String orgaoEmissor;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private DadoPagamento dadoPagamento;
+    public PessoaFisica() {}
 
-    public PessoaFisica() {
-    }
-
+    /**
+     * @param id
+     * @param nome
+     * @param cpf
+     * @param rg
+     * @param dataExpedicao
+     * @param orgaoEmissor
+     */
     public PessoaFisica(long id, String nome, String cpf, String rg, String dataExpedicao, String orgaoEmissor) {
         super(id, nome);
-        this.cpf = cpf;
-        this.rg = rg;
-        this.dataExpedicao = dataExpedicao;
+        this.setCpf(cpf);
+        this.setRg(rg);
+        this.setDataExpedicao(dataExpedicao);
+        this.setOrgaoEmissor(orgaoEmissor);
+    }
+
+    /**
+     * @return the orgaoEmissor
+     */
+    public String getOrgaoEmissor() {
+        return orgaoEmissor;
+    }
+
+    /**
+     * @param orgaoEmissor the orgaoEmissor to set
+     */
+    public void setOrgaoEmissor(String orgaoEmissor) {
         this.orgaoEmissor = orgaoEmissor;
     }
 
     /**
-     * @return the dadoPagamento
+     * @return the dataExpedicao
      */
-    public DadoPagamento getDadoPagamento() {
-        return dadoPagamento;
+    public String getDataExpedicao() {
+        return dataExpedicao;
     }
 
     /**
-     * @param dadoPagamento the dadoPagamento to set
+     * @param dataExpedicao the dataExpedicao to set
      */
-    public void setDadoPagamento(DadoPagamento dadoPagamento) {
-        this.dadoPagamento = dadoPagamento;
+    public void setDataExpedicao(String dataExpedicao) {
+        this.dataExpedicao = dataExpedicao;
     }
 
-    public String getOrgaoEmissor() { return orgaoEmissor; }
-    public void setOrgaoEmissor(String orgaoEmissor) { this.orgaoEmissor = orgaoEmissor;}
+    /**
+     * @return the rg
+     */
+    public String getRg() {
+        return rg;
+    }
 
-    public String getDataExpedicao() { return dataExpedicao; }
-    public void setDataExpedicao(String dataExpedicao) { this.dataExpedicao = dataExpedicao; }
+    /**
+     * @param rg the rg to set
+     */
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
 
-    public String getRg() { return rg;}
-    public void setRg(String rg) { this.rg = rg;}
+    /**
+     * @return the cpf
+     */
+    public String getCpf() {
+        return cpf;
+    }
 
-    public String getCpf() { return cpf; }
-    public void setCpf(String cpf) { this.cpf = cpf;}
+    /**
+     * @param cpf the cpf to set
+     */
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    
+
+    
 }

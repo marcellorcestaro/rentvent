@@ -1,19 +1,62 @@
 package rentvent;
 
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@MappedSuperclass
+@Entity
+@Table(name = "dados_pagamento")
 public class DadoPagamento {
+    @Id @GeneratedValue
     private long id;
     private String titular;
 
-    public DadoPagamento() {
-    }
+    @Embedded
+    private CartaoCredito cartaoCredito;
+    @Embedded
+    private ContaBancaria contaBancaria;
 
-    public DadoPagamento(long id, String titular) {
-        super();
+    /**
+     * @param id
+     * @param titular
+     * @param cartaoCredito
+     * @param contaBancaria
+     */
+    public DadoPagamento(long id, String titular, CartaoCredito cartaoCredito, ContaBancaria contaBancaria) {
         this.setId(id);
         this.setTitular(titular);
+        this.setCartaoCredito(cartaoCredito);
+        this.setContaBancaria(contaBancaria);
+    }
+
+    /**
+     * @return the contaBancaria
+     */
+    public ContaBancaria getContaBancaria() {
+        return contaBancaria;
+    }
+
+    /**
+     * @param contaBancaria the contaBancaria to set
+     */
+    public void setContaBancaria(ContaBancaria contaBancaria) {
+        this.contaBancaria = contaBancaria;
+    }
+
+    /**
+     * @return the cartaoCredito
+     */
+    public CartaoCredito getCartaoCredito() {
+        return cartaoCredito;
+    }
+
+    /**
+     * @param cartaoCredito the cartaoCredito to set
+     */
+    public void setCartaoCredito(CartaoCredito cartaoCredito) {
+        this.cartaoCredito = cartaoCredito;
     }
 
     /**
@@ -43,5 +86,7 @@ public class DadoPagamento {
     public void setId(long id) {
         this.id = id;
     }
+
+   
 
 }

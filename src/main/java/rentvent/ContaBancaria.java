@@ -1,27 +1,24 @@
 package rentvent;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.Embeddable;
 
-@Entity
-@Table(name = "conta_bancaria")
-public class ContaBancaria extends DadoPagamento {
+@Embeddable
+public class ContaBancaria {
     private String banco;
     private String agencia;
     private String conta;
 
+
     /**
-     * @param id
-     * @param titular
      * @param banco
      * @param agencia
      * @param conta
      */
-    public ContaBancaria(long id, String titular, String banco, String agencia, String conta) {
-        super(id, titular);
-        this.setBanco(banco);
-        this.setAgencia(agencia);
-        this.setConta(conta);
+    public ContaBancaria(String banco, String agencia, String conta) {
+        super();
+        this.banco = banco;
+        this.agencia = agencia;
+        this.conta = conta;
     }
 
     /**
@@ -32,10 +29,17 @@ public class ContaBancaria extends DadoPagamento {
     }
 
     /**
-     * @param conta the conta to set
+     * @return the banco
      */
-    public void setConta(String conta) {
-        this.conta = conta;
+    public String getBanco() {
+        return banco;
+    }
+
+    /**
+     * @param banco the banco to set
+     */
+    public void setBanco(String banco) {
+        this.banco = banco;
     }
 
     /**
@@ -53,17 +57,14 @@ public class ContaBancaria extends DadoPagamento {
     }
 
     /**
-     * @return the banco
+     * @param conta the conta to set
      */
-    public String getBanco() {
-        return banco;
+    public void setConta(String conta) {
+        this.conta = conta;
     }
 
-    /**
-     * @param banco the banco to set
-     */
-    public void setBanco(String banco) {
-        this.banco = banco;
-    }
+    
+
+    
     
 }
