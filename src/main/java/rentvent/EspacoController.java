@@ -19,14 +19,14 @@ public class EspacoController {
 	@Autowired
 	private EspacoRepo espacosRepo;
 	
-	@GetMapping("/api/espacos")
+	@GetMapping("/api/espaco")
 	public List<Espaco> getEspacos(){
 		List<Espaco> espacos = new ArrayList<>();
 		espacosRepo.findAll().forEach(espacos::add);
 		return espacos;
 	}
 	
-	@GetMapping("/api/espacos/{id}")
+	@GetMapping("/api/espaco/{id}")
 	public Espaco getEspaco(@PathVariable long id) {
 		Optional<Espaco> opt = espacosRepo.findById(id);
 		Espaco espaco = null;
@@ -36,13 +36,13 @@ public class EspacoController {
 		return espaco;
 	}
 	
-	@PostMapping("/api/espacos")
+	@PostMapping("/api/espaco")
 	public Espaco createEspaco(@RequestBody Espaco e) {
 		espacosRepo.save(e);
 		return e;
 	}
 	
-	@PutMapping("/api/espacos/{id}")
+	@PutMapping("/api/espaco/{id}")
 	public Espaco updateEspaco(@RequestBody Espaco e, @PathVariable long id) {
 		Espaco espaco = this.getEspaco(id);
 		if(espaco != null) {
@@ -52,7 +52,7 @@ public class EspacoController {
 		return e;
 	}
 	
-	@DeleteMapping(value = "/api/espacos/{id}", produces = "application/json")
+	@DeleteMapping(value = "/api/espaco/{id}", produces = "application/json")
 	public String deleteEspaco(@PathVariable long id) {
 		Espaco e = this.getEspaco(id);
 		boolean sucesso = false;

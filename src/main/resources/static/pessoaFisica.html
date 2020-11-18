@@ -40,10 +40,10 @@
         <tr>
             <td></td>
             <td>
-                <input type="button" value="Novo" onclick="" id="btnNovo">
-                <input type="button" value="Salvar" onclick="" id="btnSalvar">
-                <input type="button" value="Apagar" onclick="" id="btnApagar">
-                <input type="button" value="Cancelar" onclick="" id="btnCancelar">
+                <input type="button" value="Novo" onclick="novaPessoaFisica()" id="btnNovo">
+                <input type="button" value="Salvar" onclick="salvarPessoaFisica()" id="btnSalvar">
+                <input type="button" value="Apagar" onclick="apagarPessoaFisica()" id="btnApagar">
+                <input type="button" value="Cancelar" onclick="cancelarEdicao()" id="btnCancelar">
             </td>
         </tr>
     </table>
@@ -58,7 +58,192 @@
             <th>Data de Expedição</th>
             <th>Orgão Emissor</th>
         </tr>
+        <tbody id="corpoTabelaPessoaFisica"></tbody>
     </table>
+    <script>
+        const corpoTabela = document.querySelector('#corpoTabelaPessoaFisica');
+        const paragrafoMensagem = document.querySelector('#paragrafoMensagem');
+        const txtId = document.querySelector('#txtId');
+        const txtNome = document.querySelector('#txtNome');
+        const txtRg = document.querySelector('#txtRg');
+        const txtCpf = document.querySelector('#txtCpf');
+        const txtDataExpedicao = document.querySelector('#txtDataExpedicao');
+        const txtOrgaoEmissor = document.querySelector('#txtOrgaoEmissor');
+
+        const btnNovo = document.querySelector('#btnNovo');
+        const btnSalvar = document.querySelector('#btnSalvar');
+        const btnApagar = document.querySelector('#btnApagar');
+        const btnCancelar = document.querySelector('#btnCancelar');
+        var criandoNovaPessoaFisica = false;
+
+        inicializar();
+
+        function inicializar() {
+            criandoNovaPessoaFisica = false;
+            paragrafoMensagem.innerHTML = 'Pressione o botão Novo ou selecione uma Pessoa Física da lista:';
+            txtId.value = '';
+            txtNome.value = '';
+            txtRg.value = '';
+            txtCpf.value = '';
+            txtDataExpedicao.value = '';
+            txtOrgaoEmissor.value = '';
+
+            txtId.disabled = true;
+            txtNome.disabled = true;
+            txtRg.disabled = true;
+            txtCpf.disabled = true;
+            txtDataExpedicao.disabled = true;
+            txtOrgaoEmissor.disabled = true;
+
+            btnNovo.disabled = false;
+            btnSalvar.disabled = true;
+            btnApagar.disabled = true;
+            btnCancelar.disabled = true;
+            listarTodasPessoasFisicas();
+        }
+
+        async function listarTodasPessoasFisicas() {
+            const URL = `/api/pessoafisica/`;
+            fetch(URL)
+                .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta; })
+                .then(resposta => resposta.json())
+                .then(jsonResponse => preencherTabela(jsonResponse))
+                .catch(function (error) { paragrafoMensagem.innerHTML = 'Erro ao listar pessoas físicas (código ' + error.message + ')'; });
+        }
+
+        function preencherTabela(pessoas) {
+            var linhasTabela = '';
+            var n = pessoas.length;
+            for (var i = 0; i < n; i++) {
+                var p = pessoas[i];
+                linhasTabela +=
+                    `<tr><td><a href="javascript:void(0)" onclick="selecionarPessoaFisica('${p.id}','${p.nome}','${p.rg}', '${p.cpf}', '${p.dataExpedicao}', '${p.orgaoEmissor}')">`
+                    + p.id + '</a></td>' +
+                    '<td>' + p.nome + '</td>' +
+                    '<td>' + p.rg + '</td>' +
+                    '<td>' + p.cpf + '</td>' +
+                    '<td>' + p.dataExpedicao + '</td>' +
+                    '<td>' + p.orgaoEmissor + '</td></tr>\n';
+            }
+            corpoTabela.innerHTML = linhasTabela;
+        }
+
+        function selecionarPessoaFisica(id, nome, rg, cpf, dataExpedicao, orgaoEmissor) {
+            criandoNovaPessoaFisica = false;
+            paragrafoMensagem.innerHTML = 'Altere e salve os dados da faculdader, ou então apague o registro da faculdade.'
+            txtId.value = id;
+            txtNome.value = nome;
+            txtRg.value = rg;
+            txtCpf.value = cpf;
+            txtDataExpedicao.value = dataExpedicao;
+            txtOrgaoEmissor.value = orgaoEmissor;
+
+            txtId.disabled = true;
+            txtNome.disabled = false;
+            txtRg.disabled = false;
+            txtCpf.disabled = false;
+            txtDataExpedicao.disabled = false;
+            txtOrgaoEmissor.disabled = false;
+
+            btnNovo.disabled = true;
+            btnSalvar.disabled = false;
+            btnApagar.disabled = false;
+            btnCancelar.disabled = false;
+        }
+
+        function novaPessoaFisica() {
+            paragrafoMensagem.innerHTML = 'Preencha os dados da nova pessoa física...';
+            criandoNovaPessoaFisica = true;
+
+            txtId.value = '';
+            txtNome.value = '';
+            txtRg.value = '';
+            txtCpf.value = '';
+            txtDataExpedicao.value = '';
+            txtOrgaoEmissor.value = '';
+
+            txtId.disabled = true;
+            txtNome.disabled = false;
+            txtRg.disabled = false;
+            txtCpf.disabled = false;
+            txtDataExpedicao.disabled = false;
+            txtOrgaoEmissor.disabled = false;
+
+            btnNovo.disabled = true;
+            btnSalvar.disabled = false;
+            btnApagar.disabled = true;
+            btnCancelar.disabled = false;
+        }
+
+        function salvarPessoaFisica() {
+            if (criandoNovaPessoaFisica) {
+                criarPessoaFisica();
+            }
+            else {
+                alterarPessoaFisica();
+            }
+        }
+
+        async function criarPessoaFisica() {
+            const URL = `/api/pessoafisica/`;
+            const dadosPessoa = {
+                'nome': txtNome.value,
+                'rg': txtRg.value,
+                'cpf': txtCpf.value,
+                'dataExpedicao': txtDataExpedicao.value,
+                'orgaoEmissor': txtOrgaoEmissor.value
+            };
+            const postRequest = {
+                method: 'POST',
+                body: JSON.stringify(dadosPessoa),
+                headers: { 'Content-type': 'application/json' }
+            };
+            fetch(URL, postRequest)
+                .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta; })
+                .then(resposta => resposta.json())
+                .then(jsonResponse => inicializar())
+                .catch(function (error) { paragrafoMensagem.innerHTML = 'Erro ao criar nova pessoa física (código ' + error.message + ')'; });
+        }
+
+        async function alterarPessoaFisica() {
+            const ID = txtId.value;
+            const URL = `/api/pessoafisica/${ID}`;
+            const dadosPessoa = {
+                'id': ID,
+                'nome': txtNome.value,
+                'rg': txtRg.value,
+                'cpf': txtCpf.value,
+                'dataExpedicao': txtDataExpedicao.value,
+                'orgaoEmissor': txtOrgaoEmissor.value
+            };
+            const putRequest = {
+                method: 'PUT',
+                body: JSON.stringify(dadosPessoa),
+                headers: { 'Content-type': 'application/json' }
+            };
+            fetch(URL, putRequest)
+                .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta; })
+                .then(resposta => resposta.json())
+                .then(jsonResponse => inicializar())
+                .catch(function (error) { paragrafoMensagem.innerHTML = 'Erro ao alterar pessoa física (código ' + error.message + ')'; });
+        }
+
+        function cancelarEdicao() {
+            inicializar();
+        }
+
+        function apagarPessoaFisica() {
+            const ID = txtId.value;
+            const URL = `/api/pessoafisica/${ID}`;
+            const deleteRequest = {
+                method: 'DELETE'
+            }
+            fetch(URL, deleteRequest)
+                .then(response => { if (!response.ok) throw Error(response.status); return response; })
+                .then(response => inicializar())
+                .catch(function (error) { paragrafoMensagem.innerHTML = 'Erro ao apagar pessoa física (código ' + error.message + ')'; });
+        }
+    </script>
 </body>
 
 </html>

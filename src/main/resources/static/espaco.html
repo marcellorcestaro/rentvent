@@ -34,16 +34,36 @@
 
         </tr>
         <tr>
-            <td>Proprietário:</td>
-            <td><input type="text" id="txtProprietario"></td>
+            <td>CEP:</td>
+            <td><input type="text" id="txtCep"></td>
+        </tr>
+        <tr>
+            <td>Logradouro:</td>
+            <td><input type="text" id="txtLogradouro"></td>
+        </tr>
+        <tr>
+            <td>Número:</td>
+            <td><input type="text" id="txtNumero"></td>
+        </tr>
+        <tr>
+            <td>Complemento:</td>
+            <td><input type="text" id="txtComplemento"></td>
+        </tr>
+        <tr>
+            <td>Cidade:</td>
+            <td><input type="text" id="txtCidade"></td>
+        </tr>
+        <tr>
+            <td>UF:</td>
+            <td><input type="text" id="txtUf"></td>
         </tr>
         <tr>
             <td></td>
             <td>
-                <input type="button" value="Novo" onclick="" id="btnNovo">
-                <input type="button" value="Salvar" onclick="" id="btnSalvar">
-                <input type="button" value="Apagar" onclick="" id="btnApagar">
-                <input type="button" value="Cancelar" onclick="" id="btnCancelar">
+                <input type="button" value="Novo" onclick="novoEspaco()" id="btnNovo">
+                <input type="button" value="Salvar" onclick="salvarEspaco()" id="btnSalvar">
+                <input type="button" value="Apagar" onclick="apagarEspaco()" id="btnApagar">
+                <input type="button" value="Cancelar" onclick="cancelarEdicao()" id="btnCancelar">
             </td>
         </tr>
     </table>
@@ -56,9 +76,255 @@
             <th>Capacidade</th>
             <th>Valor p/ Hora</th>
             <th>Valor p/ Dia</th>
-            <th>Proprietário</th>
+            <th>CEP</th>
+            <th>Logradouro</th>
+            <th>Nro</th>
+            <th>Complemento</th>
+            <th>Cidade</th>
+            <th>UF</th>
         </tr>
+        <tbody id="corpoTabelaEspaco"></tbody>
     </table>
+
+    <script>
+        const corpoTabela = document.querySelector('#corpoTabelaEspaco');
+        const paragrafoMensagem = document.querySelector('#paragrafoMensagem');
+        const txtId = document.querySelector('#txtId');
+        const txtNome = document.querySelector('#txtNome');
+        const numCapacidade = document.querySelector('#numCapacidade');
+        const numValorDia = document.querySelector('#numValorDia');
+        const numValorHora = document.querySelector('#numValorHora');
+        const txtCep = document.querySelector('#txtCep');
+        const txtLogradouro = document.querySelector('#txtLogradouro');
+        const txtNumero = document.querySelector('#txtNumero');
+        const txtComplemento = document.querySelector('#txtComplemento');
+        const txtCidade = document.querySelector('#txtCidade');
+        const txtUf = document.querySelector('#txtUf');
+        
+        const btnNovo = document.querySelector('#btnNovo');
+        const btnSalvar = document.querySelector('#btnSalvar');
+        const btnApagar = document.querySelector('#btnApagar');
+        const btnCancelar = document.querySelector('#btnCancelar');
+        var criandoNovoEspaco = false;
+
+        inicializar();
+
+        function inicializar() {
+            criandoNovoEspaco = false;
+            paragrafoMensagem.innerHTML = 'Pressione o botão Novo ou selecione um Espaço da lista:';
+            txtId.value = '';
+            txtNome.value = '';
+            numCapacidade.value = '';
+            numValorDia.value = '';
+            numValorHora.value = '';
+            txtCep.value = '';
+            txtLogradouro.value = '';
+            txtNumero.value = '';
+            txtComplemento.value = '';
+            txtCidade.value = '';
+            txtUf.value = '';
+
+            txtId.disabled = true;
+            txtNome.disabled = true;
+            numCapacidade.disabled = true;
+            numValorDia.disabled = true;
+            numValorHora.disabled = true;
+            txtCep.disabled = true;
+            txtLogradouro.disabled = true;
+            txtNumero.disabled = true;
+            txtComplemento.disabled = true;
+            txtCidade.disabled = true;
+            txtUf.disabled = true;
+
+            btnNovo.disabled = false;
+            btnSalvar.disabled = true;
+            btnApagar.disabled = true;
+            btnCancelar.disabled = true;
+            listarTodosEspacos();
+        }
+
+        async function listarTodosEspacos() {
+            const URL = `/api/espaco`;
+            fetch(URL)
+                .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta; })
+                .then(resposta => resposta.json())
+                .then(jsonResponse => preencherTabela(jsonResponse))
+                .catch(function (error) { paragrafoMensagem.innerHTML = 'Erro ao listar os espaços (código ' + error.message + ')'; });
+        }
+
+        function preencherTabela(espacos) {
+            var linhasTabela = '';
+            var n = espacos.length;
+            for (var i = 0; i < n; i++) {
+                var e = espacos[i];
+                linhasTabela +=
+                    `<tr><td><a href="javascript:void(0)" onclick="selecionarEspaco('${e.id}','${e.nome}','${e.capacidade}', '${e.valorDia}', '${e.valorHora}', '${e.endereco.cep}', '${e.endereco.logradouro}', '${e.endereco.numero}', '${e.endereco.complemento}', '${e.endereco.cidade}', '${e.endereco.uf}')">`
+                    + e.id + '</a></td>' +
+                    '<td>' + e.nome + '</td>' +
+                    '<td>' + e.capacidade + '</td>' +
+                    '<td>' + e.valorDia + '</td>' +
+                    '<td>' + e.valorHora + '</td>' +
+                    '<td>' + e.endereco.cep + '</td>' +
+                    '<td>' + e.endereco.logradouro + '</td>' +
+                    '<td>' + e.endereco.numero + '</td>' +
+                    '<td>' + e.endereco.complemento + '</td>' +
+                    '<td>' + e.endereco.cidade + '</td>' +
+                    '<td>' + e.endereco.uf + '</td></tr>\n';
+            }
+            corpoTabela.innerHTML = linhasTabela;
+        }
+
+        function selecionarEspaco(id, nome, capacidade, valorDia, valorHora, cep, logradouro, numero, complemento, cidade, uf) {
+            criandoNovoEspaco = false;
+            paragrafoMensagem.innerHTML = 'Altere e salve os dados do espaço, ou então apague o registro do espaço.'
+            txtId.value = id;
+            txtNome.value = nome;
+            numCapacidade.value = capacidade;
+            numValorDia.value = valorDia;
+            numValorHora.value = valorHora;
+            txtCep.value = cep;
+            txtLogradouro.value = logradouro;
+            txtNumero.value = numero;
+            txtComplemento.value = complemento;
+            txtCidade.value = cidade;
+            txtUf.value = uf;
+
+            txtId.disabled = true;
+            txtNome.disabled = false;
+            numCapacidade.disabled = false;
+            numValorDia.disabled = false;
+            numValorHora.disabled = false;
+            txtCep.disabled = false;
+            txtLogradouro.disabled = false;
+            txtNumero.disabled = false;
+            txtComplemento.disabled = false;
+            txtCidade.disabled = false;
+            txtUf.disabled = false;
+
+            btnNovo.disabled = true;
+            btnSalvar.disabled = false;
+            btnApagar.disabled = false;
+            btnCancelar.disabled = false;
+        }
+
+        function novoEspaco() {
+            paragrafoMensagem.innerHTML = 'Preencha os dados da nova pessoa física...';
+            criandoNovoEspaco = true;
+
+            txtId.value = '';
+            txtNome.value = '';
+            numCapacidade.value = '';
+            numValorDia.value = '';
+            numValorHora.value = '';
+            txtCep.value = '';
+            txtLogradouro.value = '';
+            txtNumero.value = '';
+            txtComplemento.value = '';
+            txtCidade.value = '';
+            txtUf.value = '';
+
+
+            txtId.disabled = true;
+            txtNome.disabled = false;
+            numCapacidade.disabled = false;
+            numValorDia.disabled = false;
+            numValorHora.disabled = false;
+            txtCep.disabled = false;
+            txtLogradouro.disabled = false;
+            txtNumero.disabled = false;
+            txtComplemento.disabled = false;
+            txtCidade.disabled = false;
+            txtUf.disabled = false;
+
+            btnNovo.disabled = true;
+            btnSalvar.disabled = false;
+            btnApagar.disabled = true;
+            btnCancelar.disabled = false;
+        }
+
+        function salvarEspaco() {
+            if (criandoNovoEspaco) {
+                criarEspaco();
+            }
+            else {
+                alterarEspaco();
+            }
+        }
+
+        async function criarEspaco() {
+            const URL = `/api/espaco/`;
+            const dadosEspaco = {
+                'nome': txtNome.value,
+                'capacidade': numCapacidade.value,
+                'valorDia': numValorDia.value,
+                'valorHora': numValorHora.value,
+                'endereco': {
+                    'cep': txtCep.value,
+                    'logradouro': txtLogradouro.value,
+                    'numero': txtNumero.value,
+                    'complemento': txtComplemento.value,
+                    'cidade': txtCidade.value,
+                    'uf': txtUf.value
+                }
+            };
+            const postRequest = {
+                method: 'POST',
+                body: JSON.stringify(dadosEspaco),
+                headers: { 'Content-type': 'application/json' }
+            };
+            fetch(URL, postRequest)
+                .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta; })
+                .then(resposta => resposta.json())
+                .then(jsonResponse => inicializar())
+                .catch(function (error) { paragrafoMensagem.innerHTML = 'Erro ao criar novo espaço (código ' + error.message + ')'; });
+        }
+
+        async function alterarEspaco() {
+            const ID = txtId.value;
+            const URL = `/api/espaco/${ID}`;
+            const dadosEspaco = {
+                'id': txtId.value,
+                'nome': txtNome.value,
+                'capacidade': numCapacidade.value,
+                'valorDia': numValorDia.value,
+                'valorHora': numValorHora.value,
+                'endereco': {
+                    'cep': txtCep.value,
+                    'logradouro': txtLogradouro.value,
+                    'numero': txtNumero.value,
+                    'complemento': txtComplemento.value,
+                    'cidade': txtCidade.value,
+                    'uf': txtUf.value
+                }
+            };
+            const putRequest = {
+                method: 'PUT',
+                body: JSON.stringify(dadosEspaco),
+                headers: { 'Content-type': 'application/json' }
+            };
+            fetch(URL, putRequest)
+                .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta; })
+                .then(resposta => resposta.json())
+                .then(jsonResponse => inicializar())
+                .catch(function (error) { paragrafoMensagem.innerHTML = 'Erro ao alterar espaço (código ' + error.message + ')'; });
+        }
+
+        function cancelarEdicao() {
+            inicializar();
+        }
+
+        function apagarEspaco() {
+            const ID = txtId.value;
+            const URL = `/api/espaco/${ID}`;
+            const deleteRequest = {
+                method: 'DELETE'
+            }
+            fetch(URL, deleteRequest)
+                .then(response => { if (!response.ok) throw Error(response.status); return response; })
+                .then(response => inicializar())
+                .catch(function (error) { paragrafoMensagem.innerHTML = 'Erro ao apagar espaço (código ' + error.message + ')'; });
+        }
+    </script>
 </body>
 
 </html>

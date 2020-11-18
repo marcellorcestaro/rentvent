@@ -15,21 +15,19 @@ public class Espaco {
     private int capacidade;
     private double valorHora;
     private double valorDia;
-	private long locadorFuncaoClienteId;
 	
 	@Embedded
     private Endereco endereco;
     
     public Espaco() {}
 
-	public Espaco(long id, String nome, int capacidade, double valorHora, double valorDia, long locadorFuncaoClienteId,
+	public Espaco(long id, String nome, int capacidade, double valorHora, double valorDia,
             Endereco endereco) {
         this.id = id;
         this.nome = nome;
         this.capacidade = capacidade;
         this.valorHora = valorHora;
         this.valorDia = valorDia;
-        this.locadorFuncaoClienteId = locadorFuncaoClienteId;
         this.endereco = endereco;
     }
 	
@@ -72,14 +70,6 @@ public class Espaco {
 
 	public void setValorDia(double valorDia) {
 		this.valorDia = valorDia;
-	}
-
-	public long getLocadorFuncaoClienteId() {
-		return locadorFuncaoClienteId;
-	}
-
-	public void setLocadorFuncaoClienteId(long locadorFuncaoClienteId) {
-		this.locadorFuncaoClienteId = locadorFuncaoClienteId;
 	}
 
 	public Endereco getEndereco() {

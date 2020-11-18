@@ -118,7 +118,7 @@
             corpoTabela.innerHTML = linhasTabela;
         }
 
-        function selecionatConta(id, titular, banco, agencia, conta) {
+        function selecionarConta(id, titular, banco, agencia, conta) {
             paragrafoMensagem.innerHTML = 'Altere e salve os dados da conta, ou então apague o registro da conta.'
             txtId.value = id;
             txtTitular.value = titular;
@@ -170,12 +170,12 @@
         }
 
         async function criarConta() {
-            const URL = `/api/pagamento/conta`
+            const URL = `/api/pagamento/conta/`
             const dadosConta = {
                 'titular': txtTitular.value,
                 'banco': txtBanco.value,
                 'agencia': txtAgencia.value,
-                'conta': txtConta
+                'conta': txtConta.value
             };
             const postRequest = {
                 method: 'POST',
@@ -189,7 +189,43 @@
                 .catch(function(error) { paragrafoMensagem.innerHTML = 'Erro ao criar nova conta (código ' + error.message + ')'; });
         }
 
+        async function alterarConta() {
+            const ID = txtId.value;
+            const URL  = `/api/pagamento/conta/${ID}`;
+            const dadosConta = {
+                'id': ID,
+                'titular': txtTitular.value,
+                'banco': txtBanco.value,
+                'agencia': txtAgencia.value,
+                'conta': txtConta.value
+            };
+            const putRequest = {
+                method: 'PUT',
+                body: JSON.stringify(dadosConta),
+                headers: { 'Content-type': 'application/json' }
+            };
+            fetch(URL, putRequest)
+                .then(response => { if(!response.ok) throw Error(response.status); return response; })
+                .then(response => response.json())
+                .then(jsonResponse => inicializar())
+                .catch(function(error) { paragrafoMensagem.innerHTML = 'Erro ao alterar conta (código ' + error.message + ')'; })
+        }
 
+        function cancelarEdicao() {
+            inicializar();
+        }
+
+        async function apagarConta() {
+            const ID = txtId.value;
+            const URL = `/api/pagamento/conta/${ID}`;
+            const deleteRequest = {
+                method: 'DELETE'
+            };
+            fetch(URL, deleteRequest)
+                .then(response => { if (!response.ok) throw Error(response.status); return response; })
+                .then(response => inicializar())
+                .catch(function(error) { paragrafoMensagem.innerHTML = 'Erro ao apagar esta conta (código ' + error.message + ')'; });
+        }
     </script>
 </body>
 

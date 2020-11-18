@@ -52,7 +52,56 @@
             <th>Data de Vencimento</th>
             <th>Código de Segurança</th>
         </tr>
+        <tbody id="corpoTabela"></tbody>
     </table>
+
+    <script>
+        const corpoTabela = document.querySelector('#corpoTabelaConta');
+        const paragrafoMensagem = document.querySelector('#paragrafoMensagem');
+        const txtId = document.querySelector('#txtId');
+        const txtTitular = document.querySelector('#txtTitular');
+        const txtNumero = document.querySelector('#txtNumero');
+        const txtDataVencimento = document.querySelector('#txtDataVencimento');
+        const txtCodSeguranca = document.querySelector('#txtCodSeguranca');
+
+        const btnNovo = document.querySelector('#btnNovo');
+        const btnSalvar = document.querySelector('#btnSalvar');
+        const btnApagar = document.querySelector('#btnApagar');
+        const btnCancelar = document.querySelector('#btnApagar');
+        var criandoNovaConta = false;
+
+        inicializar();
+
+        function inicializar() {
+            paragrafoMensagem.innerHTML = 'Pressione o botão Novo ou selecione uma conta da lista:'
+            txtId.value = '';
+            txtTitular.value = '';
+            txtNumero.value = '';
+            txtDataVencimento.value = '';
+            txtCodSeguranca.value = '';
+
+            txtId.disabled = true;
+            txtTitular.disabled = true;
+            txtNumero.disabled = true;
+            txtDataVencimento.disabled = true;
+            txtCodSeguranca.disabled = true;
+
+            btnNovo.disabled = false;
+            btnSalvar.disabled = true;
+            btnApagar.disabled = true;
+            btnCancelar.disabled = true;
+            listarTodosCartoes();
+        }
+
+        async function listarTodosCartoes() {
+            const URL = `/api/pagamento/credito`;
+            fetch(URL)
+                .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta })
+                .then(resposta => resposta.json())
+                .then(jsonResponse => preencherTabela(jsonResponse))
+                .catch(function(error) { paragrafoMensagem.innerHTML = "Erro ao listar as contas bancárias (código " + error.message + ")"; });
+        }
+    </script>
 </body>
 
 </html>
