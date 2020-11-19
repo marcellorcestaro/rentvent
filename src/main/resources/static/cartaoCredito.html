@@ -26,7 +26,7 @@
         </tr>
         <tr>
             <td>Data de Vencimento:</td>
-            <td><input type="date" id="dtVencimento"></td>
+            <td><input type="text" id="dtVencimento"></td>
         </tr>
         <tr>
             <td>Código de Segurança:</td>
@@ -35,10 +35,10 @@
         <tr>
             <td></td>
             <td>
-                <input type="button" value="Novo" onclick="" id="btnNovo">
-                <input type="button" value="Salvar" onclick="" id="btnSalvar">
-                <input type="button" value="Apagar" onclick="" id="btnApagar">
-                <input type="button" value="Cancelar" onclick="" id="btnCancelar">
+                <input type="button" value="Novo" onclick="novoCartao()" id="btnNovo">
+                <input type="button" value="Salvar" onclick="salvarCartao()" id="btnSalvar">
+                <input type="button" value="Apagar" onclick="apagarCartao()" id="btnApagar">
+                <input type="button" value="Cancelar" onclick="cancelarEdicao()" id="btnCancelar">
             </td>
         </tr>
     </table>
@@ -56,34 +56,34 @@
     </table>
 
     <script>
-        const corpoTabela = document.querySelector('#corpoTabelaConta');
+        const corpoTabela = document.querySelector('#corpoTabela');
         const paragrafoMensagem = document.querySelector('#paragrafoMensagem');
         const txtId = document.querySelector('#txtId');
         const txtTitular = document.querySelector('#txtTitular');
         const txtNumero = document.querySelector('#txtNumero');
-        const txtDataVencimento = document.querySelector('#txtDataVencimento');
+        const dtVencimento = document.querySelector('#dtVencimento');
         const txtCodSeguranca = document.querySelector('#txtCodSeguranca');
 
         const btnNovo = document.querySelector('#btnNovo');
         const btnSalvar = document.querySelector('#btnSalvar');
         const btnApagar = document.querySelector('#btnApagar');
         const btnCancelar = document.querySelector('#btnApagar');
-        var criandoNovaConta = false;
+        var criandoNovoCartao = false;
 
         inicializar();
 
         function inicializar() {
-            paragrafoMensagem.innerHTML = 'Pressione o botão Novo ou selecione uma conta da lista:'
+            paragrafoMensagem.innerHTML = 'Pressione o botão Novo ou selecione um cartão da lista:'
             txtId.value = '';
             txtTitular.value = '';
             txtNumero.value = '';
-            txtDataVencimento.value = '';
+            dtVencimento.value = '';
             txtCodSeguranca.value = '';
 
             txtId.disabled = true;
             txtTitular.disabled = true;
             txtNumero.disabled = true;
-            txtDataVencimento.disabled = true;
+            dtVencimento.disabled = true;
             txtCodSeguranca.disabled = true;
 
             btnNovo.disabled = false;
@@ -99,7 +99,132 @@
                 .then(resposta => { if (!resposta.ok) throw Error(resposta.status); return resposta })
                 .then(resposta => resposta.json())
                 .then(jsonResponse => preencherTabela(jsonResponse))
-                .catch(function(error) { paragrafoMensagem.innerHTML = "Erro ao listar as contas bancárias (código " + error.message + ")"; });
+                .catch(function (error) { paragrafoMensagem.innerHTML = "Erro ao listar os cartões de crédito (código " + error.message + ")"; });
+        }
+
+        function preencherTabela(cartoes) {
+            var linhasTabela = '';
+            var n = cartoes.length;
+            for (let i = 0; i < n; i++) {
+                var cartao = cartoes[i];
+                linhasTabela +=
+                    `<tr><td><a href="javascript:void(0)" onclick="selecionarCartao('${cartao.id}', '${cartao.titular}', '${cartao.numero}', '${cartao.dataVencimento}', '${cartao.codSeguranca}')">`
+                    + cartao.id + '</a></td>' +
+                    '<td>' + cartao.titular + '</td>' +
+                    '<td>' + cartao.numero + '</td>' +
+                    '<td>' + cartao.dataVencimento + '</td>' +
+                    '<td>' + cartao.codSeguranca + '</td></tr>\n';
+            }
+            corpoTabela.innerHTML = linhasTabela;
+        }
+
+        function selecionarCartao(id, titular, numero, dataVencimento, codSeguranca) {
+            paragrafoMensagem.innerHTML = 'Altere e salve os dados do cartão, ou então apague o registro do cartão.'
+            txtId.value = id;
+            txtTitular.value = titular;
+            txtNumero.value = numero;
+            dtVencimento.value = dataVencimento;
+            txtCodSeguranca.value = codSeguranca;
+
+            txtId.disabled = true;
+            txtTitular.disabled = false;
+            txtNumero.disabled = false;
+            dtVencimento.disabled = false;
+            txtCodSeguranca.disabled = false;
+
+            btnNovo.disabled = true;
+            btnSalvar.disabled = false;
+            btnApagar.disabled = false;
+            btnCancelar.disabled = false;
+        }
+
+        function novoCartao() {
+            criandoNovoCartao = true;
+            paragrafoMensagem.innerHTML = 'Preencha os dados do novo cartão de crédito';
+
+            txtId.value = '';
+            txtTitular.value = '';
+            txtNumero.value = '';
+            dtVencimento.value = '';
+            txtCodSeguranca.value = '';
+
+            txtId.disabled = true;
+            txtTitular.disabled = false;
+            txtNumero.disabled = false;
+            dtVencimento.disabled = false;
+            txtCodSeguranca.disabled = false;
+
+            btnNovo.disabled = true;
+            btnSalvar.disabled = false;
+            btnApagar.disabled = true;
+            btnCancelar.disabled = false;
+        }
+
+        function salvarCartao() {
+            if (criandoNovoCartao) {
+                criarCartao();
+            }
+            else {
+                alterarCartao();
+            }
+        }
+
+        async function criarCartao() {
+            const URL = `/api/pagamento/credito/`
+            const dadosConta = {
+                'titular': txtTitular.value,
+                'numero': txtNumero.value,
+                'dataVencimento': dtVencimento.value,
+                'codSeguranca': txtCodSeguranca.value
+            };
+            const postRequest = {
+                method: 'POST',
+                body: JSON.stringify(dadosConta),
+                headers: { 'Content-type': 'application/json' }
+            };
+            fetch(URL, postRequest)
+                .then(response => { if (!response.ok) throw Error(response.status); return response })
+                .then(response => response.json())
+                .then(jsonResponse => inicializar())
+                .catch(function (error) { paragrafoMensagem.innerHTML = 'Erro ao criar novo cartão de crédito (código ' + error.message + ')'; });
+        }
+
+        async function alterarCartao() {
+            const ID = txtId.value;
+            const URL = `/api/pagamento/credito/${ID}`
+            const dadosConta = {
+                'id': txtId.value,
+                'titular': txtTitular.value,
+                'numero': txtNumero.value,
+                'dataVencimento': dtVencimento.value,
+                'codSeguranca': txtCodSeguranca.value
+            };
+            const putRequest = {
+                method: 'PUT',
+                body: JSON.stringify(dadosConta),
+                headers: { 'Content-type': 'application/json' }
+            };
+            fetch(URL, putRequest)
+                .then(response => { if (!response.ok) throw Error(response.status); return response })
+                .then(response => response.json())
+                .then(jsonResponse => inicializar())
+                .catch(function (error) { paragrafoMensagem.innerHTML = 'Erro ao criar novo cartão de crédito (código ' + error.message + ')'; });
+        }
+
+        function cancelarEdicao() {
+            inicializar();
+        }
+
+        async function apagarCartao() {
+            const ID = txtId.value;
+            const URL = `/api/pagamento/credito/${ID}`;
+            const deleteRequest = {
+                method: 'DELETE'
+            };
+            fetch(URL, deleteRequest)
+                .then(response => { if (!response.ok) throw Error(response.status); return response; })
+                .then(response => inicializar())
+                .catch(function (error) { paragrafoMensagem.innerHTML = 'Erro ao apagar este cartão (código ' + error.message + ')'; });
         }
     </script>
 </body>
