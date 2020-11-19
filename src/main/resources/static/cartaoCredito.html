@@ -26,7 +26,7 @@
         </tr>
         <tr>
             <td>Data de Vencimento:</td>
-            <td><input type="text" id="dtVencimento"></td>
+            <td><input type="date" id="dtVencimento"></td>
         </tr>
         <tr>
             <td>Código de Segurança:</td>
@@ -112,7 +112,7 @@
                     + cartao.id + '</a></td>' +
                     '<td>' + cartao.titular + '</td>' +
                     '<td>' + cartao.numero + '</td>' +
-                    '<td>' + cartao.dataVencimento + '</td>' +
+                    '<td>' + cartao.dataVencimento.split('T')[0] + '</td>' +
                     '<td>' + cartao.codSeguranca + '</td></tr>\n';
             }
             corpoTabela.innerHTML = linhasTabela;
@@ -123,7 +123,7 @@
             txtId.value = id;
             txtTitular.value = titular;
             txtNumero.value = numero;
-            dtVencimento.value = dataVencimento;
+            dtVencimento.value = dataVencimento.split('T')[0];
             txtCodSeguranca.value = codSeguranca;
 
             txtId.disabled = true;
